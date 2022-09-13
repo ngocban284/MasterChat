@@ -1,29 +1,49 @@
-var express = require('express');
-var { graphqlHTTP } = require('express-graphql');
-var { buildSchema } = require('graphql');
+import { PrismaClient } from '@prisma/client';
+import './env';
+import { GraphQLServer, PubSub } from 'graphql-yoga';
+import { authenticateJwt } from './middlewares/passport';
+import isAuthenticated from './middlewares/isAuthenticated';
+import schema from './schema';
+import logger from 'morgan';
+import 'module-alias/register';
+import { verify } from 'jsonwebtoken';
+import { ApolloError } from 'apollo-server';
 
-// Construct a schema, using GraphQL schema language
-var schema = buildSchema(`
-  type Query {
-    hello: String
-  }
-`);
+const PORT = process.env.PORT || 4000;
 
-// The root provides a resolver function for each API endpoint
-var root = {
-  hello: () => {
-    return 'Hello world!';
+const prisma = new PrismaClient();
+const pubsub = new PubSub();
+const server = new GraphQLServer({
+  schema,
+  context: ({ request, connection }) => ({ request, connection, isAuthenticated, pubsub }),
+});
+
+server.express.use(logger('dev'));
+server.express.use(authenticateJwt);
+
+interface ConnectionParams {
+  authToken: string;
+}
+
+server.start(
+  {
+    port: PORT,
+    cors: { origin: true },
+    endpoint: '/graphql',
+    subscriptions: {
+      path: '/graphql',
+      onConnect: async (connectionParams: ConnectionParams) => {
+        return 1;
+      },
+    },
+    formatError: (err: ApolloError) => {
+      console.error('--- GraphQL Error ---');
+      console.error('Path:', err.path);
+      console.error('Message:', err.message);
+      return err;
+    },
   },
-};
-
-var app = express();
-app.use(
-  '/graphql',
-  graphqlHTTP({
-    schema: schema,
-    rootValue: root,
-    graphiql: true,
-  }),
+  () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+  },
 );
-app.listen(4000);
-console.log('Running a GraphQL API server at http://localhost:4000/graphql');

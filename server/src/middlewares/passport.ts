@@ -2,12 +2,14 @@ import { PrismaClient } from '@prisma/client';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import passport from 'passport';
 import { Request, Response, NextFunction } from 'express';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 let prisma = new PrismaClient();
 
 const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: process.env.JWT_SECRET,
+  secretOrKey: process.env.JWT_SECRET_KEY,
 };
 
 const verifyjwt = async (payload: any, done: any) => {
