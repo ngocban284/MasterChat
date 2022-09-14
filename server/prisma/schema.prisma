@@ -23,7 +23,7 @@ model User {
 model Room {
     id        Int      @id @default(autoincrement())
     avatar    String
-    code      String
+    code      String  @unique
     users     User[]
     messages   Message[]
     createAt DateTime @default(now())
