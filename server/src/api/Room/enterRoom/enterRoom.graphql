@@ -1,0 +1,9 @@
+type enterRoomResponse {
+  userId: Int!
+  roomId: Int!
+  token: String!
+}
+
+type Mutation {
+  enterRoom(nickname: String!, avatar: String!, lang: String!, code: String!): enterRoomResponse!
+}

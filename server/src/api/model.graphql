@@ -1,24 +1,22 @@
 type User {
   id: Int!
-  nickName: String!
+  nickname: String!
   avatar: String!
-  password: String!
+  password: String
   lang: String!
-  rooms: [Room!]!
-  messages: [Message!]!
   isDeleted: Boolean!
-  createAt: String!
-  updateAt: String!
+  rooms: [Room!]!
+  messages: [Message]!
 }
 
 type Room {
   id: Int!
   avatar: String!
   code: String!
-  users: User!
+  users: [User!]!
   messages: [Message!]!
-  createAt: String!
-  updateAt: String!
+  createdAt: String
+  updatedAt: String
 }
 
 type Message {
@@ -27,6 +25,6 @@ type Message {
   source: String!
   room: Room!
   user: User!
-  createAt: String!
-  updateAt: String!
+  createdAt: String
+  updatedAt: String
 }

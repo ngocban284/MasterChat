@@ -14,7 +14,6 @@
     "apollo-server": "^2.19.0",
     "axios": "^0.21.0",
     "dotenv": "^8.2.0",
-    "express-graphql": "^0.12.0",
     "graphql-subscriptions": "^1.1.0",
     "graphql-tools": "^6.2.4",
     "graphql-yoga": "^1.18.3",
@@ -77,10 +76,6 @@
       "^@api/(.*)": "<rootDir>/src/api/$1",
       "^@utils/(.*)": "<rootDir>/src/utils/$1",
       "^@interfaces/(.*)": "<rootDir>/src/interfaces/$1"
-    },
-    "resolutions": {
-      "graphql": "^15.6.1",
-      "**/graphql": "^15.6.1"
     }
   }
 }
