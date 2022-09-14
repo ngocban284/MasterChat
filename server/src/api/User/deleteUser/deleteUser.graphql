@@ -1,0 +1,12 @@
+type Mutation {
+  deleteUser: Boolean!
+}
+
+type deleteUserResponse {
+  id: Int!
+  roomId: Int!
+}
+
+type Subscription {
+  deleteUser: deleteUserResponse
+}
