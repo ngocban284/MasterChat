@@ -1,0 +1,18 @@
+{
+  "requestUser": {
+    "id": 1,
+    "nickname": "ricado",
+    "lang": "Vietnam",
+    "avatar": "default",
+    "roomId": 1
+  },
+  "createMessageData": {
+    "text": "hello baby"
+  },
+  "allMessageByPageData": {
+    "page": 1
+  },
+  "createSystemMessageData": {
+    "source": "string"
+  }
+}

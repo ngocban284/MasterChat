@@ -32,9 +32,14 @@ server.start(
     cors: { origin: true },
     endpoint: '/graphql',
     subscriptions: {
-      path: '/graphql',
+      path: '/subscriptions',
       onConnect: async (connectionParams: ConnectionParams) => {
-        return 1;
+        const { authToken } = connectionParams;
+        console.log('authToken', authToken);
+        const user: any = verify(authToken as string, process.env.JWT_SECRET_KEY as string);
+        const findUser = await prisma.user.findOne({ where: { id: user.id } });
+        if (!findUser) throw new Error('Not valid user token');
+        return { user: { ...findUser, roomId: user.roomId } };
       },
     },
     formatError: (err: ApolloError) => {

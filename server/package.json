@@ -77,6 +77,10 @@
       "^@api/(.*)": "<rootDir>/src/api/$1",
       "^@utils/(.*)": "<rootDir>/src/utils/$1",
       "^@interfaces/(.*)": "<rootDir>/src/interfaces/$1"
+    },
+    "resolutions": {
+      "graphql": "^15.6.1",
+      "**/graphql": "^15.6.1"
     }
   }
 }
