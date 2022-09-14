@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
-import './env';
+import * as dotenv from 'dotenv';
+dotenv.config();
 import { GraphQLServer, PubSub } from 'graphql-yoga';
 import { authenticateJwt } from './middlewares/passport';
 import isAuthenticated from './middlewares/isAuthenticated';
