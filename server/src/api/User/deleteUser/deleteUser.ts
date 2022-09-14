@@ -51,7 +51,7 @@ export default {
       subscribe: withFilter(
         (_: boolean, __: null, { pubsub }: Context) => pubsub.asyncIterator(TRIGGER.DELETE_USER),
         async (payload, variables, context): Promise<boolean> => {
-          const { roomId } = context.request.user;
+          const { roomId } = context.connection.context.user;
           if (payload.deleteUser.roomId === roomId) {
             return true;
           }
