@@ -15,11 +15,11 @@ interface CreateRoomResponse {
 export default {
   Mutation: {
     createRoom: async (_: CreateRoomResponse, args: User): Promise<CreateRoomResponse> => {
-      const { nickName, avatar, lang } = args;
-      if (!nickName || !avatar || !lang) throw new Error(ERROR_MSG.invalid);
+      const { nickname, avatar, lang } = args;
+      if (!nickname || !avatar || !lang) throw new Error(ERROR_MSG.invalid);
       const newUser = await prisma.user.create({
         data: {
-          nickName,
+          nickname,
           lang,
           avatar,
         },
