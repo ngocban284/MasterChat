@@ -1,0 +1,8 @@
+type translationResponse {
+  translatedText: String
+  errorMsg: String
+}
+
+type Query {
+  translateText(text: String!): translationResponse!
+}
