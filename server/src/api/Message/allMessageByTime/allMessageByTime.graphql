@@ -1,0 +1,8 @@
+type allMessage {
+  messages: Message
+  time: DateTime
+}
+
+type Query {
+  allMessage(time: DateTime): [allMessage]
+}

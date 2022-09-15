@@ -1,5 +1,5 @@
 type allMessage {
-  message: [Message]
+  messages: [Message]
   nextPage: Int!
 }
 

@@ -1,44 +1,37 @@
 import { Context } from '@interfaces/context';
 import { Message, PrismaClient, User } from '@prisma/client';
 import translateText from '@utils/translateText';
+import { time } from 'console';
 
 const prisma = new PrismaClient();
 
-interface Pagination {
-  page: number;
-}
-
-interface allMessage {
-  messages: (Message & { user: User })[];
-  nextPage: number | null;
+interface TimeStamp {
+  time: string;
 }
 
 export default {
   Query: {
-    allMessageByPage: async (
-      _: allMessage,
-      args: Pagination,
+    allMessageByTime: async (
+      _: Message,
+      __: TimeStamp,
       { request, isAuthenticated }: Context,
-    ): Promise<allMessage> => {
+    ): Promise<Message[]> => {
       isAuthenticated(request);
       const { roomId } = request.user;
-      const { page } = args;
-      const maxId = await prisma.$queryRaw`SELECT MAX(id) from Message WHERE roomId = ${roomId}`;
-      const lastId = maxId[0]['MAX(id)'];
-      if (!lastId) {
-        return {
-          messages: [],
-          nextPage: null,
-        };
-      }
 
       const Messages = await prisma.message.findMany({
         where: {
-          room: { id: roomId },
+          AND: [
+            {
+              room: { id: roomId },
+            },
+            {
+              createdAt: {
+                gt: new Date(+time),
+              },
+            },
+          ],
         },
-        take: -10,
-        skip: (page - 1) * 10,
-        cursor: { id: lastId },
         orderBy: {
           id: 'desc',
         },
@@ -61,19 +54,10 @@ export default {
           message.text = await translateText(message, request.user, users);
         }
       });
+
       await Promise.all(promise);
 
-      if (Messages.length === 10) {
-        return {
-          messages: Messages,
-          nextPage: page + 1,
-        };
-      }
-
-      return {
-        messages: Messages,
-        nextPage: null,
-      };
+      return Messages;
     },
   },
 };
