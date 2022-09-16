@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 
 export default {
   Mutation: {
-    createMessage: async (
+    createSystemMessage: async (
       _: boolean,
       args: { source: string },
       { request, pubsub }: Context,
