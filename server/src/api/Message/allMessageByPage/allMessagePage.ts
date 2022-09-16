@@ -8,7 +8,7 @@ interface Pagination {
   page: number;
 }
 
-interface allMessage {
+interface allMessages {
   messages: (Message & { user: User })[];
   nextPage: number | null;
 }
@@ -16,10 +16,10 @@ interface allMessage {
 export default {
   Query: {
     allMessageByPage: async (
-      _: allMessage,
+      _: allMessages,
       args: Pagination,
       { request, isAuthenticated }: Context,
-    ): Promise<allMessage> => {
+    ): Promise<allMessages> => {
       isAuthenticated(request);
       const { roomId } = request.user;
       const { page } = args;
