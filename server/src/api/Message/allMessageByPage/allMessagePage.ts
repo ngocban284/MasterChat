@@ -15,7 +15,7 @@ interface allMessages {
 
 export default {
   Query: {
-    allMessageByPage: async (
+    allMessagesByPage: async (
       _: allMessages,
       args: Pagination,
       { request, isAuthenticated }: Context,
