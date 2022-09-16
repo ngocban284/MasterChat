@@ -11,7 +11,7 @@ interface TimeStamp {
 
 export default {
   Query: {
-    allMessageByTime: async (
+    allMessagesByTime: async (
       _: Message,
       __: TimeStamp,
       { request, isAuthenticated }: Context,
