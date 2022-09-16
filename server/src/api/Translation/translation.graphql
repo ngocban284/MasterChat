@@ -3,6 +3,6 @@ type translationResponse {
   errorMsg: String
 }
 
-type Query {
-  translateText(text: String!): translationResponse!
+type Mutation {
+  translation(text: String!): translationResponse!
 }
