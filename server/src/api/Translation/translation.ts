@@ -43,6 +43,7 @@ export default {
         }
 
         const translatedText = await req(text, source, lang);
+        // console.log('Translate text', translatedText);
         return { translatedText: translatedText };
       } catch (e) {
         return { errorMsg: e as string };

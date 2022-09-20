@@ -8,8 +8,8 @@ export default async (query: string): Promise<string> => {
   };
   const config = {
     headers: {
-      'X-NCP-APIGW-API-KEY-ID': process.env.CLIENT_ID,
-      'X-NCP-APIGW-API-KEY': process.env.CLIENT_SECRET,
+      'X-Naver-Client-Id': process.env.CLIENT_ID,
+      'X-Naver-Client-Secret': process.env.CLIENT_SECRET,
       'Content-Type': 'application/json',
     },
   };

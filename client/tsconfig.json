@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "target": "es5",
+    "lib": ["dom", "ES2015", "ES2016", "ES2017", "ES2018", "ES2019", "ES2020"],
+    "allowJs": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "module": "commonjs",
+    "isolatedModules": true,
+    "jsx": "react",
+    "allowSyntheticDefaultImports": true,
+    "outDir": "./dist",
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@components/*": ["src/components/*"],
+      "@contexts/*": ["src/contexts/*"],
+      "@constants/*": ["src/constants/*"],
+      "@routes/*": ["src/routes/*"],
+      "@styles/*": ["src/styles/*"],
+      "@utils/*": ["src/utils/*"],
+      "@queries/*": ["src/queries/*"],
+      "@generated/*": ["src/generated/*"],
+      "@hooks/*": ["src/hooks/*"],
+    }
+  },
+  "exclude": ["node_modules"],
+  "include": ["**/*.ts", "**/*.tsx"]
+}
