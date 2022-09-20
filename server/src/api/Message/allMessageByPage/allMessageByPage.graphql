@@ -1,6 +1,6 @@
 type allMessages {
   messages: [Message]
-  nextPage: Int!
+  nextPage: Int
 }
 
 type Query {

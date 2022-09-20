@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import * as dotenv from 'dotenv';
+import dotenv from 'dotenv';
 dotenv.config();
 import { GraphQLServer, PubSub } from 'graphql-yoga';
 import { authenticateJwt } from './middlewares/passport';
@@ -32,12 +32,11 @@ server.start(
     cors: { origin: true },
     endpoint: '/graphql',
     subscriptions: {
-      path: '/subscriptions',
+      path: '/graphql',
       onConnect: async (connectionParams: ConnectionParams) => {
         const { authToken } = connectionParams;
-        console.log('authToken', authToken);
-        const user: any = verify(authToken as string, process.env.JWT_SECRET_KEY as string);
-        const findUser = await prisma.user.findOne({ where: { id: user.id } });
+        const user: any = verify(authToken, process.env.JWT_SECRET_KEY as string);
+        const findUser = await prisma.user.findFirst({ where: { id: user.id } });
         if (!findUser) throw new Error('Not valid user token');
         return { user: { ...findUser, roomId: user.roomId } };
       },

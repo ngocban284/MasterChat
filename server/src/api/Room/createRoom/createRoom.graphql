@@ -6,5 +6,5 @@ type createRoomResponse {
 }
 
 type Mutation {
-  createRoom(nickName: String!, avatar: String!, lang: String!): createRoomResponse!
+  createRoom(nickname: String!, avatar: String!, lang: String!): createRoomResponse!
 }

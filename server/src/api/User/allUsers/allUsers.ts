@@ -1,6 +1,6 @@
 import { PrismaClient, User, Room, Message } from '@prisma/client';
 
-import { Context } from '../../../interfaces/context';
+import { Context } from '@interfaces/context';
 
 const prisma = new PrismaClient();
 

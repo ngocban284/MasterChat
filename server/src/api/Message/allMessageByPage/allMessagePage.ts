@@ -1,5 +1,5 @@
 import { Context } from '@interfaces/context';
-import { Message, PrismaClient, User } from '@prisma/client';
+import { PrismaClient, Message, User } from '@prisma/client';
 import translateText from '@utils/translateText';
 
 const prisma = new PrismaClient();
@@ -8,7 +8,7 @@ interface Pagination {
   page: number;
 }
 
-interface allMessages {
+interface AllMessages {
   messages: (Message & { user: User })[];
   nextPage: number | null;
 }
@@ -16,52 +16,47 @@ interface allMessages {
 export default {
   Query: {
     allMessagesByPage: async (
-      _: allMessages,
+      _: AllMessages,
       args: Pagination,
       { request, isAuthenticated }: Context,
-    ): Promise<allMessages> => {
+    ): Promise<AllMessages> => {
       isAuthenticated(request);
-      const { roomId } = request.user;
       const { page } = args;
-      const maxId = await prisma.$queryRaw`SELECT MAX(id) from Message WHERE roomId = ${roomId}`;
+      const { roomId } = request.user;
+      const maxId: any =
+        await prisma.$queryRaw`SELECT MAX(id) from Message WHERE roomId = ${roomId}`;
       const lastId = maxId[0]['MAX(id)'];
-      if (!lastId) {
-        return {
-          messages: [],
-          nextPage: null,
-        };
-      }
-
+      if (!lastId) return { messages: [], nextPage: null };
       const Messages = await prisma.message.findMany({
         where: {
           room: { id: roomId },
         },
         take: -10,
-        skip: (page - 1) * 10,
-        cursor: { id: lastId },
-        orderBy: {
-          id: 'desc',
+        skip: 10 * (page - 1),
+        cursor: {
+          id: lastId,
         },
         include: {
           user: true,
         },
       });
 
-      let users = await prisma.room
-        .findOne({
+      const users = await prisma.room
+        .findFirst({
           where: {
             id: roomId,
           },
         })
         .users();
 
-      const promise = Messages.map(async (message) => {
+      const promises = Messages.map(async (message: any) => {
         const { source } = message;
         if (source !== 'in' && source !== 'out') {
           message.text = await translateText(message, request.user, users);
         }
       });
-      await Promise.all(promise);
+
+      await Promise.all(promises);
 
       if (Messages.length === 10) {
         return {
@@ -69,7 +64,6 @@ export default {
           nextPage: page + 1,
         };
       }
-
       return {
         messages: Messages,
         nextPage: null,

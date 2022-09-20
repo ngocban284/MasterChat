@@ -25,7 +25,7 @@ export default {
         const source = await dect(text);
 
         const users = await prisma.room
-          .findOne({
+          .findFirst({
             where: {
               id: roomId,
             },

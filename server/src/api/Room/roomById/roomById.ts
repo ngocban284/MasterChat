@@ -13,7 +13,7 @@ export default {
       { request, isAuthenticated }: Context,
     ): Promise<result> => {
       isAuthenticated(request);
-      return prisma.room.findOne({
+      return prisma.room.findFirst({
         where: {
           id,
         },

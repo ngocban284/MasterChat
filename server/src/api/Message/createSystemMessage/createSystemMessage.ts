@@ -1,4 +1,4 @@
-import { Context } from '../../../interfaces/context';
+import { Context } from '@interfaces/context';
 import { PrismaClient } from '@prisma/client';
 import TRIGGER from '@utils/trigger';
 
@@ -8,13 +8,11 @@ export default {
   Mutation: {
     createSystemMessage: async (
       _: boolean,
-      args: { source: string },
+      { source }: { source: string },
       { request, pubsub }: Context,
     ): Promise<boolean> => {
       const { id, nickname, avatar, lang, roomId } = request.user;
-      const { source } = args;
-
-      const message = await prisma.message.create({
+      const newMessage = await prisma.message.create({
         data: {
           text: nickname,
           source,
@@ -34,9 +32,9 @@ export default {
         },
       });
 
-      pubsub.publish(TRIGGER.NEW_MESSAGE, { newMessage: message });
+      pubsub.publish(TRIGGER.NEW_MESSAGE, { newMessage });
       if (source === 'in') {
-        pubsub.publish(TRIGGER.NEW_USER, { newUser: { id, nickname, avatar, lang } });
+        pubsub.publish(TRIGGER.NEW_USER, { newUser: { id, nickname, avatar, lang, roomId } });
         return true;
       }
       pubsub.publish(TRIGGER.DELETE_USER, { deleteUser: { id, roomId } });
