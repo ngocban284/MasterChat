@@ -1,5 +1,5 @@
 import { PrismaClient, User, Room, Message } from '@prisma/client';
-import { Context } from '../../../interfaces/context';
+import { Context } from '@interfaces/context';
 
 const prisma = new PrismaClient();
 
@@ -12,7 +12,7 @@ export default {
     ): Promise<User | null> => {
       isAuthenticated(request);
       const { id } = request.user;
-      return prisma.user.findOne({
+      return prisma.user.findFirst({
         where: {
           id: id,
         },

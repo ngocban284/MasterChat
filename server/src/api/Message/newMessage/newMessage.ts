@@ -20,10 +20,10 @@ export default {
             if (message.source === 'in' || message.source === 'out') {
               return true;
             }
-            const user = await prisma.user.findOne({ where: { id } });
+            const user = await prisma.user.findFirst({ where: { id } });
             if (!user) throw new Error(ERROR_MSG.read);
             const users = await prisma.room
-              .findOne({
+              .findFirst({
                 where: {
                   id: roomId,
                 },

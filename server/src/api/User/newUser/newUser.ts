@@ -1,7 +1,7 @@
 import { User } from '@prisma/client';
-import { Context } from '../../../interfaces/context';
+import { Context } from '@interfaces/context';
 import { withFilter } from 'graphql-subscriptions';
-import TRIGGER from '../../../utils/trigger';
+import TRIGGER from '@utils/trigger';
 
 export default {
   Subscription: {

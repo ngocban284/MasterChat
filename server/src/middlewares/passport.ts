@@ -2,19 +2,19 @@ import { PrismaClient } from '@prisma/client';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import passport from 'passport';
 import { Request, Response, NextFunction } from 'express';
-import * as dotenv from 'dotenv';
+import dotenv from 'dotenv';
 dotenv.config();
 
-let prisma = new PrismaClient();
+const prisma = new PrismaClient();
 
 const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   secretOrKey: process.env.JWT_SECRET_KEY,
 };
 
-const verifyjwt = async (payload: any, done: any) => {
+const verifyJwt = async (payload: any, done: any) => {
   try {
-    const isExist = await prisma.user.findOne({
+    const isExist: any = await prisma.user.findFirst({
       where: {
         id: payload.id,
       },
@@ -22,7 +22,7 @@ const verifyjwt = async (payload: any, done: any) => {
 
     const user = {
       id: payload.id,
-      nickName: payload.nickName,
+      nickname: payload.nickname,
       avatar: payload.avatar,
       lang: payload.lang,
       roomId: payload.roomId,
@@ -33,8 +33,8 @@ const verifyjwt = async (payload: any, done: any) => {
     } else {
       return done(null, false);
     }
-  } catch (error) {
-    return done(error, false);
+  } catch (err) {
+    return done(err, false);
   }
 };
 
@@ -47,4 +47,4 @@ export const authenticateJwt = (req: Request, res: Response, next: NextFunction)
   })(req, res, next);
 };
 
-passport.use(new JwtStrategy(jwtOptions, verifyjwt));
+passport.use(new JwtStrategy(jwtOptions, verifyJwt));

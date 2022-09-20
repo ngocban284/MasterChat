@@ -1,7 +1,6 @@
 import { Context } from '@interfaces/context';
 import { Message, PrismaClient, User } from '@prisma/client';
 import translateText from '@utils/translateText';
-import { time } from 'console';
 
 const prisma = new PrismaClient();
 
@@ -13,7 +12,7 @@ export default {
   Query: {
     allMessagesByTime: async (
       _: Message,
-      __: TimeStamp,
+      { time }: TimeStamp,
       { request, isAuthenticated }: Context,
     ): Promise<Message[]> => {
       isAuthenticated(request);
@@ -41,7 +40,7 @@ export default {
       });
 
       let users = await prisma.room
-        .findOne({
+        .findFirst({
           where: {
             id: roomId,
           },

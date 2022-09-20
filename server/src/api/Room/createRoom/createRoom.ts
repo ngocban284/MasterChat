@@ -1,7 +1,7 @@
 import { PrismaClient, User } from '@prisma/client';
-import { getRandomNumber, randomImage } from '../../../utils/util';
-import generateToken from '../../../utils/generateToken';
-import ERROR_MSG from '../../../utils/errorMessage';
+import { getRandomNumber, randomImage } from '@utils/util';
+import generateToken from '@utils/generateToken';
+import ERROR_MSG from '@utils/errorMessage';
 
 const prisma = new PrismaClient();
 
@@ -25,14 +25,10 @@ export default {
         },
       });
 
-      let rdCode;
+      let randomCode;
       while (true) {
-        rdCode = getRandomNumber(6);
-        const isExistRoom = await prisma.room.findFirst({
-          where: {
-            code: rdCode,
-          },
-        });
+        randomCode = getRandomNumber(6);
+        const isExistRoom = await prisma.room.findFirst({ where: { code: randomCode } });
         if (!isExistRoom) break;
       }
 
@@ -44,12 +40,12 @@ export default {
             },
           },
           avatar: randomImage(),
-          code: rdCode,
+          code: randomCode,
         },
       });
       const jwtToken = generateToken(newUser, newRoom.id);
 
-      return { userId: newUser.id, roomId: newRoom.id, code: rdCode, token: jwtToken };
+      return { userId: newUser.id, roomId: newRoom.id, code: randomCode, token: jwtToken };
     },
   },
 };
