@@ -12,7 +12,7 @@ export const NEW_USER = gql`
 `;
 
 export const DELETE_USER = gql`
-  mutation {
+  mutation deleteUser {
     deleteUser
   }
 `;
