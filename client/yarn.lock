@@ -4053,6 +4053,11 @@ dotenv-webpack@^6.0.0:
   dependencies:
     dotenv-defaults "^2.0.1"
 
+dotenv@^16.0.2:
+  version "16.0.2"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.0.2.tgz#0b0f8652c016a3858ef795024508cddc4bffc5bf"
+  integrity sha512-JvpYKUmzQhYoIFgK2MOnF3bciIZoItIIoryihy0rIA+H4Jy0FmgyKYAHCTN98P5ybGSJcIFbh6QKeJdtZd1qhA==
+
 dotenv@^8.2.0:
   version "8.2.0"
   resolved "https://registry.npmjs.org/dotenv/-/dotenv-8.2.0.tgz"
@@ -5135,6 +5140,11 @@ graphql-tag@^2.11.0:
   integrity sha512-FdSNcu2QQcWnM2VNvSCCDCVS5PpPqpzgFT8+GXzqJuoDd0CBncxCY278u4mhRO7tMgo2JjgJA5aZ+nWSQ/Z+xg==
   dependencies:
     tslib "^2.1.0"
+
+graphql-to-json-converter@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/graphql-to-json-converter/-/graphql-to-json-converter-1.2.0.tgz#8d3ac27d45a72c811a39f835729fbc997fddbe5f"
+  integrity sha512-4HOBAACgRTs+LzOP/5TREjGQ6ZlJMqsLG69Kvsh4M5pd3sxsgyZH34LIpYygUly/bAPgTBMR6EpsvU3XWiq2jw==
 
 graphql@^15.4.0:
   version "15.4.0"
