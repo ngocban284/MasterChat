@@ -1,10 +1,10 @@
 {
-  "name": "madagascar",
+  "name": "masterchat",
   "version": "1.0.0",
-  "description": "대화를 실시간으로 번역하는 기능을 가진 iOS App, Web 메신저",
+  "description": "master chat web",
   "main": "index.js",
-  "repository": "https://github.com/boostcamp-2020/Project02-B-RealTime-Translation-Messenger",
-  "author": "Project02-B-RealTime-Translation-Messenger",
+  "repository": "",
+  "author": "MasterChat",
   "license": "MIT",
   "scripts": {
     "dev": "webpack serve --progress --mode development",

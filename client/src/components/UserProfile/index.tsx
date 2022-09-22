@@ -1,5 +1,6 @@
 import React from 'react';
 import Avatar from './Avatar';
+import Language from './Language';
 import styled from 'styled-components';
 
 const ProfileWrapper = styled.div`
@@ -20,6 +21,7 @@ const UserProfile: React.FC<Props> = ({
   return (
     <ProfileWrapper>
       <Avatar />
+      <Language />
     </ProfileWrapper>
   );
 };
