@@ -1,20 +1,18 @@
-import React from "react";
+import React from 'react';
+import Avatar from '@components/UserProfile/Avatar';
+import styled, { ThemeProvider } from 'styled-components';
+import { BrowserRouter } from 'react-router-dom';
+import { UserContextProvider } from './contexts/UserContext';
+import Routes from './routes';
 
-function App() {
+const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <UserContextProvider>
+      <BrowserRouter>
+        <Routes />
+      </BrowserRouter>
+    </UserContextProvider>
   );
-}
+};
 
 export default App;
