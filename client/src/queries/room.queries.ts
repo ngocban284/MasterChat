@@ -1,14 +1,14 @@
 import { gql } from '@apollo/client';
 
 export const CREATE_ROOM = gql`
-    mutation createRoom($nickname: String!, $avatar: String!,lang: String!) {
-        createRoom(nickname: $nickname, avatar: $avatar, lang: $lang) {
-            userId
-            roomId
-            code
-            token
-        }
+  mutation createRoom($nickname: String!, $avatar: String!, $lang: String!) {
+    createRoom(nickname: $nickname, avatar: $avatar, lang: $lang) {
+      userId
+      roomId
+      code
+      token
     }
+  }
 `;
 
 export const ENTER_ROOM = gql`

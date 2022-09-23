@@ -1,7 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useMutation } from '@apollo/client';
+import client, { wsClient } from '@/apollo/Client';
 import styled from 'styled-components';
+import { Theme } from '@/styles/Themes';
 import { useUserState } from '@contexts/UserContext';
 import UserProfile from '@/components/UserProfile';
+import Button from '@/components/Common/Button';
+import { CREATE_ROOM } from '@/queries/room.queries';
+import { CREATE_SYSTEM_MESSAGE } from '@/queries/message.queries';
+import { CreateRoomResponse, MutationCreateRoomArgs } from '@/generated/types';
+import { getText } from '@/constants/localization';
+import encrypt from '@/utils/encryption';
 
 const Wrapper = styled.div`
   min-width: inherit;
@@ -24,8 +34,72 @@ const Container = styled.div`
 
 const Home: React.FC = () => {
   const [isNicknameValid, setIsNicknameValid] = useState(true);
-  const { nickname } = useUserState();
+  const { avatar, nickname, lang } = useUserState();
+  const history = useHistory();
+
+  const { greenColor } = Theme;
+  const { createRoom, enterRoom } = getText(lang);
+  const [visible, setVisible] = useState(false);
   const isValid = isNicknameValid && nickname.length > 0;
+
+  const [createRoomMutation] = useMutation<
+    { createRoomResponse: CreateRoomResponse },
+    MutationCreateRoomArgs
+  >(CREATE_ROOM, {
+    variables: {
+      nickname,
+      lang,
+      avatar,
+    },
+  });
+
+  const [createSystemMessageMutation] = useMutation(CREATE_SYSTEM_MESSAGE, {
+    variables: {
+      source: 'in',
+    },
+  });
+
+  const onClickEnterRoom = async () => {
+    if (!isValid) {
+      setIsNicknameValid(false);
+      return;
+    }
+    setIsNicknameValid(true);
+  };
+
+  const onClickCreateRoom = async () => {
+    if (!isValid) {
+      setIsNicknameValid(false);
+      return;
+    }
+
+    const { data } = await createRoomMutation();
+    if (!data) {
+      return;
+    }
+
+    const { roomId, code, userId } = data.createRoomResponse;
+    localStorage.setItem('token', data.createRoomResponse.token);
+    await createSystemMessageMutation();
+    history.push({
+      pathname: `/room/${encrypt(`${roomId}`)}`,
+      state: {
+        roomId,
+        userId,
+        code,
+        lang,
+      },
+    });
+
+    useEffect(() => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        localStorage.removeItem('token');
+        client.resetStore();
+        wsClient.close();
+      }
+    }, []);
+  };
 
   return (
     <Wrapper>
@@ -33,6 +107,13 @@ const Home: React.FC = () => {
         <UserProfile
           isNicknameValid={isNicknameValid}
           setIsNicknameValid={setIsNicknameValid}
+        />
+        <Button text={enterRoom} onClick={onClickEnterRoom} isValid={isValid} />
+        <Button
+          text={createRoom}
+          color={greenColor}
+          onClick={onClickCreateRoom}
+          isValid={isValid}
         />
       </Container>
     </Wrapper>
