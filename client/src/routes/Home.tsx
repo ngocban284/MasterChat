@@ -12,6 +12,7 @@ import { CREATE_SYSTEM_MESSAGE } from '@/queries/message.queries';
 import { CreateRoomResponse, MutationCreateRoomArgs } from '@/generated/types';
 import { getText } from '@/constants/localization';
 import encrypt from '@/utils/encryption';
+import Modal from '@/components/Modal';
 
 const Wrapper = styled.div`
   min-width: inherit;
@@ -64,7 +65,7 @@ const Home: React.FC = () => {
       setIsNicknameValid(false);
       return;
     }
-    setIsNicknameValid(true);
+    setVisible(true);
   };
 
   const onClickCreateRoom = async () => {
@@ -90,20 +91,21 @@ const Home: React.FC = () => {
         lang,
       },
     });
-
-    useEffect(() => {
-      const token = localStorage.getItem('token');
-      if (token) {
-        localStorage.removeItem('token');
-        client.resetStore();
-        wsClient.close();
-      }
-    }, []);
   };
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      localStorage.removeItem('token');
+      client.resetStore();
+      wsClient.close();
+    }
+  }, []);
 
   return (
     <Wrapper>
       <Container>
+        <Modal visible={visible} setVisible={setVisible} />
         <UserProfile
           isNicknameValid={isNicknameValid}
           setIsNicknameValid={setIsNicknameValid}
