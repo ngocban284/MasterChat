@@ -39,7 +39,7 @@ const Room: React.FC = () => {
   } catch (error) {
     alert(tokenErrorText);
     window.location.href = '/';
-    return <div />;
+    return <div></div>;
   }
 };
 
