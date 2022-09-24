@@ -17,7 +17,7 @@ export const DELETE_USER = gql`
   }
 `;
 
-export const SUBCRIBE_DELETE_USER = gql`
+export const SUBSCRIBE_DELETE_USER = gql`
   subscription deleteUser {
     deleteUser {
       id
