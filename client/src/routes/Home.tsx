@@ -13,6 +13,7 @@ import { CreateRoomResponse, MutationCreateRoomArgs } from '@/generated/types';
 import { getText } from '@/constants/localization';
 import encrypt from '@/utils/encryption';
 import Modal from '@/components/Modal';
+import Footer from '@/components/Common/Footer';
 
 const Wrapper = styled.div`
   min-width: inherit;
@@ -30,6 +31,13 @@ const Container = styled.div`
   padding: 3rem;
   @media (max-width: ${({ theme }) => theme.mediaSize}) {
     padding: 0.5rem 3rem;
+  }
+`;
+
+const FooterWrapper = styled.div`
+  margin: 3rem 0%;
+  @media (max-width: ${({ theme }) => theme.mediaSize}) {
+    margin: 2rem 0;
   }
 `;
 
@@ -117,6 +125,9 @@ const Home: React.FC = () => {
           onClick={onClickCreateRoom}
           isValid={isValid}
         />
+        <FooterWrapper>
+          <Footer color={Theme.darkGrayColor} />
+        </FooterWrapper>
       </Container>
     </Wrapper>
   );
