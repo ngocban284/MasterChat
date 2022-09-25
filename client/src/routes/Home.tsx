@@ -52,7 +52,7 @@ const Home: React.FC = () => {
   const isValid = isNicknameValid && nickname.length > 0;
 
   const [createRoomMutation] = useMutation<
-    { createRoomResponse: CreateRoomResponse },
+    { createRoom: CreateRoomResponse },
     MutationCreateRoomArgs
   >(CREATE_ROOM, {
     variables: {
@@ -87,8 +87,9 @@ const Home: React.FC = () => {
       return;
     }
 
-    const { roomId, code, userId } = data.createRoomResponse;
-    localStorage.setItem('token', data.createRoomResponse.token);
+    const { roomId, code, userId } = data.createRoom;
+
+    localStorage.setItem('token', data?.createRoom.token);
     await createSystemMessageMutation();
     history.push({
       pathname: `/room/${encrypt(`${roomId}`)}`,
