@@ -5,6 +5,9 @@ import useUsers from '@/hooks/useUser';
 import { User } from '@generated/types';
 import { getText } from '@/constants/localization';
 import SideBar from '@/components/SideBar';
+import Loader from '@components/Common/Loader';
+import ChatLog from '@/components/ChatLog';
+import useMessages from '@/hooks/useMessage';
 
 interface LocationState {
   userId: number;
@@ -26,6 +29,18 @@ const Room: React.FC = () => {
       (user: User) => !user.isDeleted,
     );
 
+    const {
+      data: messagesData,
+      loading: messagesLoading,
+      onLoadMore,
+    } = useMessages({
+      roomId,
+      page: 1,
+      id: userId,
+    });
+
+    if (messagesLoading || usersLoading) return <Loader />;
+
     return (
       <>
         <RoomHeader
@@ -36,6 +51,13 @@ const Room: React.FC = () => {
           users={validateUsers}
         />
         <SideBar visible={visible} users={validateUsers} />
+
+        <ChatLog
+          messages={messagesData.allMessagesByPage.messages}
+          page={page}
+          setPage={setPage}
+          onLoadMore={onLoadMore}
+        />
       </>
     );
   } catch (error) {
