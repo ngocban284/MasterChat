@@ -8,6 +8,7 @@ import SideBar from '@/components/SideBar';
 import Loader from '@components/Common/Loader';
 import ChatLog from '@/components/ChatLog';
 import useMessages from '@/hooks/useMessage';
+import RoomInput from '@/components/RoomInput';
 
 interface LocationState {
   userId: number;
@@ -58,6 +59,8 @@ const Room: React.FC = () => {
           setPage={setPage}
           onLoadMore={onLoadMore}
         />
+
+        <RoomInput />
       </>
     );
   } catch (error) {
