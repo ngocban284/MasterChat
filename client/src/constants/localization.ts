@@ -16,6 +16,8 @@ interface TextList {
   enterText: string;
   leaveText: string;
   tokenErrorText: string;
+  AM: string;
+  PM: string;
 }
 
 interface TextObj {
@@ -41,6 +43,8 @@ const textList: TextObj = {
     enterText: ' is here',
     leaveText: ' left the chat room',
     tokenErrorText: 'You don`t have a token! Go back to the main page 😥',
+    AM: 'AM',
+    PM: 'PM',
   },
   ja: {
     inputNickName: 'ニックネーム 入力',
@@ -60,6 +64,8 @@ const textList: TextObj = {
     enterText: ' さんがチャットルームに入場しました',
     leaveText: ' さんがチャットルームから出ました',
     tokenErrorText: 'トークンがありません！ メインページに戻ります 😥',
+    AM: '午前',
+    PM: '午後',
   },
   vi: {
     inputNickName: 'Nhập biệt hiệu',
@@ -73,12 +79,14 @@ const textList: TextObj = {
     wrongCode: 'Mã phòng không hợp lệ 😅',
     copyCode: 'Mã đã được sao chép!',
     userList: 'Danh sách người dùng',
-    translationText: 'Tin nhắn đã dịch được in ra',
+    translationText: 'Tin nhắn được dịch',
     translationErrorText: 'Dịch không thành công',
-    inputText: 'Vui lòng tham gia trò chuyện',
-    enterText: 'ở đây',
-    leaveText: 'rời khỏi phòng trò chuyện',
+    inputText: 'Nhập đoạn trò chuyện',
+    enterText: 'Tại đây',
+    leaveText: 'Rời khỏi phòng trò chuyện',
     tokenErrorText: 'Bạn không có mã thông báo! Quay lại trang chính 😥',
+    AM: 'SA',
+    PM: 'CH',
   },
   ko: {
     inputNickName: '닉네임 입력',
@@ -98,6 +106,8 @@ const textList: TextObj = {
     enterText: '님이 들어왔습니다',
     leaveText: '님이 나갔습니다',
     tokenErrorText: '토큰이 없어요! 메인페이지로 돌아갑니다 😥',
+    AM: '오전',
+    PM: '오후',
   },
   'zh-CN': {
     inputNickName: '输入昵称',
@@ -117,6 +127,8 @@ const textList: TextObj = {
     enterText: ' 进入聊天室了',
     leaveText: ' 从聊天室出去了',
     tokenErrorText: '没有代币牌！ 回到主页 😥',
+    AM: '上午',
+    PM: '下午',
   },
 };
 

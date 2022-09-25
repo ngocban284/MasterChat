@@ -1,3 +1,5 @@
+import { getText } from '@constants/localization';
+
 interface OffsetTable {
   [key: string]: number;
 }
@@ -5,12 +7,15 @@ interface OffsetTable {
 const timeOffsetTable: OffsetTable = {
   ko: 9,
   en: -5,
+  vi: 7,
   'zh-CN': 8,
   ja: 9,
   fr: 1,
 };
 
 const formatTime = (timestamp: string, langCode: string): string => {
+  const { AM, PM } = getText(langCode);
+
   const time = +timestamp;
   const date = new Date(time);
   const tz =
@@ -24,8 +29,8 @@ const formatTime = (timestamp: string, langCode: string): string => {
 
   const amPMTime =
     Hour > 12
-      ? `오후 ${Hour - 12}:${minute >= 10 ? minute : `0${minute}`}`
-      : `오전 ${Hour}:${minute >= 10 ? minute : `0${minute}`}`;
+      ? `${PM} ${Hour - 12}:${minute >= 10 ? minute : `0${minute}`}`
+      : `${AM} ${Hour}:${minute >= 10 ? minute : `0${minute}`}`;
 
   return amPMTime;
 };
