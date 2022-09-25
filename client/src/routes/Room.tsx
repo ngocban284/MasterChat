@@ -4,6 +4,7 @@ import RoomHeader from '@/components/RoomHeader';
 import useUsers from '@/hooks/useUser';
 import { User } from '@generated/types';
 import { getText } from '@/constants/localization';
+import SideBar from '@/components/SideBar';
 
 interface LocationState {
   userId: number;
@@ -34,6 +35,7 @@ const Room: React.FC = () => {
           lang={lang}
           users={validateUsers}
         />
+        <SideBar visible={visible} users={validateUsers} />
       </>
     );
   } catch (error) {
