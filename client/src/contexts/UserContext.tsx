@@ -20,7 +20,7 @@ const initialState: User = {
   avatar:
     'https://user-images.githubusercontent.com/26537048/100733385-72cc1d80-3411-11eb-9f23-e60f603d019a.png',
   nickname: '',
-  lang: 'ko',
+  lang: 'en',
   code: '',
 };
 

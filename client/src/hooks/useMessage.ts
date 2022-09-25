@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { ALL_MESSAGE_BY_PAGE, NEW_MESSAGE } from '@queries/message.queries';
+import { ALL_MESSAGES_BY_PAGE, NEW_MESSAGE } from '@queries/message.queries';
 import { useQuery } from '@apollo/client';
 
 interface VariablesType {
@@ -16,7 +16,7 @@ interface QueryReturnType {
 
 const useMessages = ({ page }: VariablesType): QueryReturnType => {
   const { data, loading, subscribeToMore, fetchMore } = useQuery(
-    ALL_MESSAGE_BY_PAGE,
+    ALL_MESSAGES_BY_PAGE,
     {
       variables: {
         page,

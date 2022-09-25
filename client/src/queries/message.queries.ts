@@ -23,9 +23,9 @@ export const CREATE_MESSAGE = gql`
   }
 `;
 
-export const ALL_MESSAGE_BY_PAGE = gql`
-  query allMessageByPage($page: Int!) {
-    allMessageByPage(page: $page) {
+export const ALL_MESSAGES_BY_PAGE = gql`
+  query allMessagesByPage($page: Int!) {
+    allMessagesByPage(page: $page) {
       messages {
         id
         text

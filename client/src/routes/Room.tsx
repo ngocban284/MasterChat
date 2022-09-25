@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import RoomHeader from '@/components/RoomHeader';
-import useUsers from '@/hooks/useUser';
+import ChatLog from '@components/ChatLog';
+import RoomHeader from '@components/RoomHeader';
+import SideBar from '@components/SideBar';
+import RoomInput from '@components/RoomInput';
+import useMessages from '@hooks/useMessage';
+import useUsers from '@hooks/useUser';
 import { User } from '@generated/types';
-import { getText } from '@/constants/localization';
-import SideBar from '@/components/SideBar';
 import Loader from '@components/Common/Loader';
-import ChatLog from '@/components/ChatLog';
-import useMessages from '@/hooks/useMessage';
-import RoomInput from '@/components/RoomInput';
+import { getText } from '@constants/localization';
 
 interface LocationState {
   userId: number;
@@ -17,19 +17,17 @@ interface LocationState {
   lang: string;
 }
 
-const Room: React.FC = () => {
+const Room: FC = () => {
   const location = useLocation<LocationState>();
   const { userId, roomId, code, lang } = location.state;
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState<boolean>(false);
   const [page, setPage] = useState(2);
   const { tokenErrorText } = getText(lang);
 
   try {
-    const { data: usersData, loading: usersLoading } = useUsers({ roomId });
-    const validateUsers = usersData.roomById.users.filter(
-      (user: User) => !user.isDeleted,
-    );
-
+    const { data: usersData, loading: usersLoading } = useUsers({
+      roomId,
+    });
     const {
       data: messagesData,
       loading: messagesLoading,
@@ -42,31 +40,32 @@ const Room: React.FC = () => {
 
     if (messagesLoading || usersLoading) return <Loader />;
 
+    const validUser = usersData.roomById.users.filter(
+      (user: User) => !user.isDeleted,
+    );
     return (
       <>
         <RoomHeader
           visible={visible}
           setVisible={setVisible}
           code={code}
+          users={validUser}
           lang={lang}
-          users={validateUsers}
         />
-        <SideBar visible={visible} users={validateUsers} />
-
+        <SideBar visible={visible} users={validUser} />
         <ChatLog
           messages={messagesData.allMessagesByPage.messages}
           page={page}
           setPage={setPage}
           onLoadMore={onLoadMore}
         />
-
         <RoomInput />
       </>
     );
-  } catch (error) {
+  } catch (e) {
     alert(tokenErrorText);
     window.location.href = '/';
-    return <div></div>;
+    return <div />;
   }
 };
 

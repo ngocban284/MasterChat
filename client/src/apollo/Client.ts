@@ -1,38 +1,23 @@
-// import dotenv from 'dotenv';
-// dotenv.config();
-import { ApolloClient, InMemoryCache, HttpLink, split } from '@apollo/client';
+import { getMainDefinition } from '@apollo/client/utilities';
+import { ApolloClient, HttpLink, split, InMemoryCache } from '@apollo/client';
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { setContext } from '@apollo/client/link/context';
 import { SubscriptionClient } from 'subscriptions-transport-ws';
-import { getMainDefinition } from '@apollo/client/utilities';
 
-const httpUri =
-  (process.env.HTTP_URI as string) || 'http://localhost:4000/graphql';
-const wsUri = (process.env.WS_URI as string) || 'ws://localhost:4000/graphql';
+const httpsUri = process.env.HTTPS_URI || 'http://localhost:4000/graphql';
+const wssUri = process.env.WSS_URI || 'ws://localhost:4000/graphql';
 
 const httpLink = new HttpLink({
-  uri: httpUri,
+  uri: httpsUri,
 });
 
-export const wsClient = new SubscriptionClient(wsUri, {
+export const wsClient = new SubscriptionClient(wssUri, {
   reconnect: true,
   lazy: true,
-  connectionParams: () => {
-    return { authToken: localStorage.getItem('token') };
-  },
+  connectionParams: () => ({ authToken: localStorage.getItem('token') }),
 });
 
 const wsLink = new WebSocketLink(wsClient);
-
-const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem('token');
-  return {
-    headers: {
-      ...headers,
-      authorization: token ? `Bearer ${token}` : '',
-    },
-  };
-});
 
 const link = split(
   ({ query }) => {
@@ -45,6 +30,16 @@ const link = split(
   wsLink,
   httpLink,
 );
+
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem('token');
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : '',
+    },
+  };
+});
 
 const client = new ApolloClient({
   link: authLink.concat(link),
