@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import styled from 'styled-components';
 import { useMutation } from '@apollo/client';
 import { useHistory } from 'react-router-dom';
-import Button from '../Common/Button';
-import Toast from '../Common/Toast';
-import floatToast from '@/utils/floatToast';
-import encrypt from '@/utils/encryption';
-import { useUserState } from '@/contexts/UserContext';
-import { EnterRoomResponse, MutationEnterRoomArgs } from '@/generated/types';
-import { ENTER_ROOM } from '@/queries/room.queries';
-import { CREATE_SYSTEM_MESSAGE } from '@/queries/message.queries';
+import Button from '@components/Common/Button';
+import Toast from '@components/Common/Toast';
+import { ENTER_ROOM } from '@queries/room.queries';
+import { EnterRoomResponse, MutationEnterRoomArgs } from '@generated/types';
+import { useUserState } from '@contexts/UserContext';
+import { CREATE_SYSTEM_MESSAGE } from '@queries/message.queries';
+import encrypt from '@utils/encryption';
+import floatToast from '@utils/floatToast';
 import { getText } from '@/constants/localization';
+import Overlay from './OverLay';
 import Code from './Code';
-import OverLay from './OverLay';
 
 const Wrapper = styled.div<Props>`
   position: fixed;
@@ -27,7 +27,6 @@ const Wrapper = styled.div<Props>`
   background-color: ${(props) => props.theme.blackColor};
   overflow: hidden;
   z-index: 2;
-
   @media (max-width: 400px) {
     width: 25vw;
   }
@@ -71,20 +70,18 @@ interface Props {
   setVisible?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Modal: React.FC<Props> = ({ visible, onClick, setVisible }) => {
+const Modal: FC<Props> = ({ visible, setVisible }) => {
   const history = useHistory();
   const [pinValue, setPinValue] = useState('');
-  const { nickname, lang, avatar } = useUserState();
+  const { nickname, avatar, lang } = useUserState();
   const { enterCode, submitCode, wrongCode } = getText(lang);
 
-  const onClickOverLay = () => {
-    if (setVisible) {
-      setVisible(!visible);
-    }
+  const onClickOverlay = () => {
+    if (setVisible) setVisible(!visible);
   };
 
   const [enterRoomMutation] = useMutation<
-    { enterRoomResponse: EnterRoomResponse },
+    { enterRoom: EnterRoomResponse },
     MutationEnterRoomArgs
   >(ENTER_ROOM, {
     variables: {
@@ -96,9 +93,7 @@ const Modal: React.FC<Props> = ({ visible, onClick, setVisible }) => {
   });
 
   const [createSystemMessageMutation] = useMutation(CREATE_SYSTEM_MESSAGE, {
-    variables: {
-      source: 'in',
-    },
+    variables: { source: 'in' },
   });
 
   const onClickEnter = async () => {
@@ -109,31 +104,30 @@ const Modal: React.FC<Props> = ({ visible, onClick, setVisible }) => {
 
     try {
       const { data } = await enterRoomMutation();
-      if (!data) {
-        return;
-      }
+      if (!data) return;
 
-      const { roomId, userId } = data.enterRoomResponse;
-      localStorage.setItem('token', data.enterRoomResponse.token);
+      const { roomId, userId } = data.enterRoom;
+      localStorage.setItem('token', data.enterRoom.token);
 
       await createSystemMessageMutation();
+
       history.push({
-        pathname: `/room/${roomId}`,
+        pathname: `/room/${encrypt(`${roomId}`)}`,
         state: {
           userId,
-          nickname,
-          lang,
+          roomId,
           code: pinValue,
+          lang,
         },
       });
-    } catch (error) {
+    } catch (e) {
       floatToast('.modal-toast');
     }
   };
 
   return (
     <>
-      <OverLay visible={visible} onClick={onClickOverLay} />
+      <Overlay visible={visible} onClick={onClickOverlay} />
       <Wrapper visible={visible}>
         <ModalContainer>
           <ModalHeader>
@@ -147,7 +141,7 @@ const Modal: React.FC<Props> = ({ visible, onClick, setVisible }) => {
             />
           </ModalBody>
           <ModalFooter>
-            <Button onClick={onClickEnter} text={submitCode}></Button>
+            <Button text={submitCode} onClick={onClickEnter} />
           </ModalFooter>
         </ModalContainer>
       </Wrapper>

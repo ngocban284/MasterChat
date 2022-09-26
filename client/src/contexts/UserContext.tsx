@@ -18,7 +18,7 @@ type UserDispatch = Dispatch<Action>;
 
 const initialState: User = {
   avatar:
-    'https://user-images.githubusercontent.com/26537048/100733385-72cc1d80-3411-11eb-9f23-e60f603d019a.png',
+    'https://user-images.githubusercontent.com/92626813/192159152-f46ed76b-b365-4d72-a3d0-705f491f7808.png',
   nickname: '',
   lang: 'en',
   code: '',
