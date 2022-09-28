@@ -40,13 +40,25 @@ This is a real-time chat web app that allows users to chat with any foreigner wi
 1. Clone the repo
 
 ```sh
-    git clone https://github.com/ngocban284/Image-Lazer-Backend.git
+    git clone https://github.com/ngocban284/MasterChat.git
 ```
 
 2. Install NPM packages
 
 ```sh
-    npm install
+    cd server
+```
+
+```sh
+    yarn i
+```
+
+```sh
+    cd client
+```
+
+```sh
+    yarn i
 ```
 
 3. Enter your Environment variables
@@ -78,11 +90,7 @@ Back-End Example
 4. Run
 
 ```sh
-    cd server
-```
-
-```sh
-    yarn i
+    cd client
 ```
 
 ```sh
@@ -90,11 +98,7 @@ Back-End Example
 ```
 
 ```sh
-    cd client
-```
-
-```sh
-    yarn i
+    cd server
 ```
 
 ```sh
