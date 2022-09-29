@@ -43,7 +43,7 @@ This is a real-time chat web app that allows users to chat with any foreigner wi
     git clone https://github.com/ngocban284/MasterChat.git
 ```
 
-2. Install NPM packages
+2. Install depedencies packages
 
 ```sh
     cd server
@@ -132,6 +132,12 @@ Future feature:
 ### Project Architecture
 
 <img width="1120" alt="Ảnh chụp Màn hình 2022-09-28 lúc 23 15 32" src="https://user-images.githubusercontent.com/92626813/192832134-cd04207e-b376-4a94-bcf1-890491bb4841.png">
+
+## Pub/Sub Messaging system
+
+<img width="842" alt="Ảnh chụp Màn hình 2022-09-29 lúc 20 30 36" src="https://user-images.githubusercontent.com/92626813/193051295-a8426bb2-3765-4eca-a55d-460f2e798f18.png">
+<img width="864" alt="Ảnh chụp Màn hình 2022-09-29 lúc 20 30 47" src="https://user-images.githubusercontent.com/92626813/193051311-43bdf54f-d546-4f72-b901-2a1eb5be5a31.png">
+<img width="842" alt="Ảnh chụp Màn hình 2022-09-29 lúc 20 30 56" src="https://user-images.githubusercontent.com/92626813/193051317-a61ffac1-6b10-4597-98e2-1b7dbc24bd09.png">
 
 [typescriptlang.org]: https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white
 [typescript-url]: https://www.typescriptlang.org/
